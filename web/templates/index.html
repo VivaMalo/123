@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Flask Калькулятор</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; display: flex; flex-direction: column; align-items: center; padding-top: 30px; }
+        .calc-container { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 400px; text-align: center; }
+        input, select, button { padding: 12px; margin: 5px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; outline: none; }
+        .btn-main { background-color: #007bff; color: white; border: none; cursor: pointer; width: 100%; margin-top: 15px; font-weight: bold; }
+        .btn-clear { background-color: #dc3545; color: white; border: none; cursor: pointer; width: 100%; display: block; text-align: center; margin-top: 10px; padding: 10px; border-radius: 8px; text-decoration: none; font-size: 14px; font-weight: bold; }
+        .result-box { margin-top: 20px; padding: 15px; background-color: #e7f3ff; border-radius: 8px; color: #0056b3; font-size: 1.2em; }
+        .history-container { margin-top: 20px; width: 400px; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        ul { list-style: none; padding: 0; max-height: 200px; overflow-y: auto; text-align: left; }
+        li { padding: 8px; border-bottom: 1px solid #eee; color: #555; }
+        .user-bar { width: 400px; text-align: right; margin-bottom: 10px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <div class="user-bar">
+        Привет, <strong>{{ username }}</strong>! | <a href="/logout" style="color: #dc3545;">Выйти</a>
+    </div>
+
+    <div class="calc-container">
+        <h2>🧮 Калькулятор</h2>
+        <form method="POST">
+            <input type="number" name="n1" step="any" placeholder="0" required style="width: 80px;">
+            <select name="op">
+                <option>+</option><option>-</option><option>*</option><option>/</option>
+            </select>
+            <input type="number" name="n2" step="any" placeholder="0" required style="width: 80px;">
+            <button type="submit" class="btn-main">Рассчитать</button>
+        </form>
+
+        {% if result is not none %}
+            <div class="result-box">Ответ: <strong>{{ result }}</strong></div>
+        {% endif %}
+    </div>
+
+    {% if history %}
+    <div class="history-container">
+        <h3>История:</h3>
+        <a href="/clear" class="btn-clear">Очистить историю</a>
+        <ul>
+            {% for entry in history %}
+                <li>{{ entry }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+</body>
+</html>
